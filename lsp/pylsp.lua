@@ -39,10 +39,13 @@ return {
   settings = {
     pylsp = {
       plugins = {
+        pycodestyle = {
+          maxLineLength = vim.o.textwidth,
+        },
         pylsp_mypy = {
           enabled = true,
           live_mode = false,
-          overrides = { "--python-executable", require("utils").get_venv_python(), true },
+          overrides = { "--python-executable", require("venv-selector").python(), true },
         },
       },
     },

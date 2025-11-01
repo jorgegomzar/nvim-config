@@ -30,7 +30,7 @@ return {
   filetypes = { "python" },
   root_markers = { "pyproject.toml", "ruff.toml", ".ruff.toml", ".git" },
   settings = {
-    lineLength = 120,
+    lineLength = vim.o.textwidth,
   },
   on_attach = function(client, _)
     if client == nil then
