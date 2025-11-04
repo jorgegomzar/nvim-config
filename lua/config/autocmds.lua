@@ -42,6 +42,25 @@ autocmd("User", {
   end,
 })
 
+-- mongosh
+usercmd("Mongosh", function()
+  if not vim.g.mongo_uri then
+    vim.g.mongo_uri =
+      vim.fn.system("direnv exec ~/dotfiles/.envrc/reportal/mongo printenv MONGO_URI"):match("^[^\n]*\n([^\n]*)")
+
+    if vim.v.shell_error ~= 0 or vim.g.mongo_uri == "" then
+      vim.notify("Failed to retrieve MongoDB URI from 1Password", vim.log.levels.ERROR)
+      return
+    end
+  end
+
+  local cmd = "mongosh '" .. vim.g.mongo_uri .. "'"
+  Snacks.terminal.toggle(cmd)
+end, {})
+map("n", "<leader>fm", function()
+  vim.cmd("Mongosh")
+end, { desc = "Toggle mongosh console" })
+
 -- PYTHON
 augroup("Python", { clear = true })
 
@@ -89,7 +108,7 @@ autocmd("FileType", {
 
       if opts.bang then
         -- :PyTest! → test all files
-        file_path = "."
+        file_path = vim.fn.getcwd()
       else
         -- :PyTest → test only current file
         file_path = vim.fn.expand("%:p")
@@ -112,7 +131,7 @@ autocmd("FileType", {
 
       Snacks.terminal.open(
         "set -x ; " .. cmd .. " ; " .. vim.o.shell,
-        { win = { style = "terminal" }, auto_close = false }
+        { win = { style = "split" }, auto_close = false }
       )
     end, {
       bang = true, -- allow "!" in the command
@@ -127,7 +146,7 @@ autocmd("FileType", {
     end, { buffer = ev.buf, desc = "Python test and linters for file" })
     map("n", "<leader>pyta", function()
       vim.cmd("PyTest!")
-    end, { buffer = ev.buf, desc = "Python test and linters for all" })
+    end, { desc = "Python test and linters for all" })
 
     vim.notify("Registered python commands")
   end,

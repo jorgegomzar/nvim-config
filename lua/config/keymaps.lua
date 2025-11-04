@@ -3,9 +3,3 @@
 -- Add any additional keymaps here
 
 local map = LazyVim.safe_keymap_set
-
-map("n", "<leader>rr", function()
-  vim.cmd("write")
-  vim.cmd("source $MYVIMRC")
-  vim.notify("🔁 Reloaded config!")
-end, { desc = "Reload Neovim config" })
