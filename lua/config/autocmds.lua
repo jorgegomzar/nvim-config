@@ -98,7 +98,9 @@ autocmd("FileType", {
     -- Run current file
     bufusercmd(ev.buf, "PyRun", function()
       local cmd = "uv run --no-project " .. vim.fn.expand("%:p")
-      Snacks.terminal.get(cmd .. " ; " .. vim.o.shell, { win = { style = "split" }, auto_close = false })
+      local term =
+        Snacks.terminal.toggle(cmd .. " ; " .. vim.o.shell, { win = { style = "split" }, auto_close = false })
+      term:show()
     end, {})
 
     -- PyTest
@@ -129,10 +131,12 @@ autocmd("FileType", {
           .. cmd_pytest
       end
 
-      Snacks.terminal.open(
+      -- to ensure we re-use the same terminal we toggle it and then call show
+      local term = Snacks.terminal.toggle(
         "set -x ; " .. cmd .. " ; " .. vim.o.shell,
         { win = { style = "split" }, auto_close = false }
       )
+      term:show()
     end, {
       bang = true, -- allow "!" in the command
       desc = "Run pytest (with ! to run all tests)",
