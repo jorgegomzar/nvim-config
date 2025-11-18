@@ -65,7 +65,7 @@ end, { desc = "Toggle mongosh console" })
 augroup("Python", { clear = true })
 
 autocmd("FileType", {
-  pattern = "python",
+  pattern = { "python", "py" },
   group = "Python",
   desc = "Python specific commands",
   callback = function(ev)
