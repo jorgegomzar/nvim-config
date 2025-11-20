@@ -61,6 +61,23 @@ map("n", "<leader>fm", function()
   vim.cmd("Mongosh")
 end, { desc = "Toggle mongosh console" })
 
+-- k9s
+usercmd("Kubectl", function()
+  local namespace = vim.fn.input("Namespace: ")
+  Snacks.terminal.toggle("k9s -n" .. namespace)
+end, {})
+map("n", "<leader>fk", function()
+  vim.cmd("Kubectl")
+end, { desc = "Toggle k9s" })
+
+-- termscp
+usercmd("Termscp", function()
+  Snacks.terminal.toggle("termscp")
+end, {})
+map("n", "<leader>fs", function()
+  vim.cmd("Termscp")
+end, { desc = "Toggle Termscp console" })
+
 -- PYTHON
 augroup("Python", { clear = true })
 
