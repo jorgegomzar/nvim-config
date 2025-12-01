@@ -63,8 +63,7 @@ end, { desc = "Toggle mongosh console" })
 
 -- k9s
 usercmd("Kubectl", function()
-  local namespace = vim.fn.input("Namespace: ")
-  Snacks.terminal.toggle("k9s -n" .. namespace)
+  Snacks.terminal.toggle("k9s")
 end, {})
 map("n", "<leader>fk", function()
   vim.cmd("Kubectl")
